@@ -33,6 +33,10 @@
 			that.removeItem(item.id);
 		});
 
+		that.view.bind('editItemComplete', function (item) {
+			that.editItemComplete(item.id , item.complete);
+		});
+
 	}
 
 	/**
@@ -110,10 +114,10 @@
 	/*
 	 *
 	 */
-	Controller.prototype.editItemComplete = function (id) {
+	Controller.prototype.editItemComplete = function (id , complete) {
 		var that = this;
-		that.model.read(id, function (data) {
-			that.view.render('editItemComplete', {id: id, complete: data[0].complete});
+		that.model.update(id, {complete: complete }, function () {
+			that.view.render('editItemComplete', {id: id, complete: complete}); // here
 		});
 	};
 

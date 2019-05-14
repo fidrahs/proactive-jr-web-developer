@@ -37,14 +37,15 @@
 	Template.prototype.show = function (data) {
 		var i, l;
 		var view = '';
-
+		var complete = '';
+		
 		for (i = 0, l = data.length; i < l; i++) {
 			var template = this.defaultTemplate;
 
 			template = template.replace('{{id}}', data[i].id);
 			template = template.replace('{{title}}', data[i].title);
-			var c = data[i].complete ? "checked":""
-			template = template.replace('{{complete}}', c);
+			var complete = data[i].complete ? 'checked':'';
+			template = template.replace('{{complete}}', complete);
 			view = view + template;
 		}
 

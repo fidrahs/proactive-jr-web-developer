@@ -62,7 +62,7 @@
             return;
         }
 
-        var input = qs('input.complete', listItem);
+        var input = qs('input.edit', listItem);
         listItem.removeChild(input);
 
         listItem.className = listItem.className.replace('editing', '');
@@ -71,17 +71,16 @@
             label.textContent = title;
         });
     };
-    View.prototype._editItemComplete = function (id, title) {
+    View.prototype._editItemComplete = function (id, completed) {
         var elem = qs('[data-id="' + id + '"]');
+        var isComplete;
 
-        var isComplete=elem.getElemenById("complete").checked
+        isComplete=elem.getElemenById('complete').checked;
+
         if (!listItem) {
             return;
         }
-
-        qsa('label', listItem).forEach(function (label) {
-            label.textContent = title;
-        });
+        isComplete = completed;
     };
 
     View.prototype.render = function (viewCmd, parameter) {
@@ -112,7 +111,7 @@
                 that._editItemDone(parameter.id, parameter.title);
             },          
             editItemComplete: function () {
-                that._editItemComplete(parameter.id, parameter.title);
+                that._editItemComplete(parameter.id, parameter.complete);
             },    
 
         };
@@ -179,6 +178,13 @@
 
         } else if (event === 'itemEditCancel') {
             that._bindItemEditCancel(handler);
+        }else if(event === 'editItemComplete'){
+            $live('#todo-list #complete' , 'click', function () {
+                handler({
+                    id: that._itemId(this),
+                    complete: this.checked
+                })
+            })
         }
     };
 
